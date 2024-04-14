@@ -1,3 +1,5 @@
+.PHONY: clean all
+
 all: vector_sum lifo
 
 vector_sum: vector_sum.v vector_sum_test.v
@@ -5,3 +7,6 @@ vector_sum: vector_sum.v vector_sum_test.v
 
 lifo: lifo.v
 	iverilog lifo.v -o lifo
+
+clean:
+	rm lifo vector_sum

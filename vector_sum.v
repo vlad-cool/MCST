@@ -12,20 +12,20 @@ endmodule
 
 module counter
 #(
-    parameter POS_W = 4
+    parameter WIDTH = 4
 )
 (
-    input [POS_W-1:0]a,
+    input [WIDTH-1:0]a,
     input b,
-    output [POS_W-1:0]sum
+    output [WIDTH-1:0]sum
 );
 
-wire c[POS_W:0];
+wire c[WIDTH:0];
 assign c[0] = b;
 
 genvar i;
 generate
-    for (i = 0; i < POS_W; i = i + 1) begin : gen_counters
+    for (i = 0; i < WIDTH; i = i + 1) begin : gen_counters
         half_adder adder_inst(.a(a[i]), .b(c[i]), .sum(sum[i]), .carry_out(c[i+1])); 
     end
 endgenerate
@@ -45,12 +45,12 @@ module vector_sum
 wire [POS_W-1:0] intermediate[DATA_W:0];
 
 assign intermediate[0] = 'b0;
-assign sum = intermediate[DATA_W - 1];
+assign sum = intermediate[DATA_W];
 
 genvar i;
 generate
     for (i = 0; i < DATA_W; i = i + 1) begin : gen_counters
-        counter #(POS_W) counter_inst (.a(intermediate[i]), .b(data[i]), .sum(intermediate[i + 1]));
+        counter #(.WIDTH(POS_W)) counter_inst (.a(intermediate[i]), .b(data[i]), .sum(intermediate[i + 1]));
     end
 endgenerate
 
