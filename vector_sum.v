@@ -1,37 +1,3 @@
-module half_adder (
-    input a,
-    input b,
-    output sum,
-    output carry_out
-);
-
-assign sum = a ^ b;
-assign carry_out = a & b;
-
-endmodule
-
-module counter
-#(
-    parameter WIDTH = 4
-)
-(
-    input [WIDTH-1:0]a,
-    input b,
-    output [WIDTH-1:0]sum
-);
-
-wire c[WIDTH:0];
-assign c[0] = b;
-
-genvar i;
-generate
-    for (i = 0; i < WIDTH; i = i + 1) begin : gen_counters
-        half_adder adder_inst(.a(a[i]), .b(c[i]), .sum(sum[i]), .carry_out(c[i+1])); 
-    end
-endgenerate
-
-endmodule
-
 module vector_sum 
 #(
     parameter DATA_W=10,
@@ -50,7 +16,7 @@ assign sum = intermediate[DATA_W];
 genvar i;
 generate
     for (i = 0; i < DATA_W; i = i + 1) begin : gen_counters
-        counter #(.WIDTH(POS_W)) counter_inst (.a(intermediate[i]), .b(data[i]), .sum(intermediate[i + 1]));
+        increment #(.WIDTH(POS_W)) counter_inst (.a(intermediate[i]), .b(data[i]), .res(intermediate[i + 1]));
     end
 endgenerate
 
