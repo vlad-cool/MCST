@@ -1,6 +1,3 @@
-// parameter DATA_W = 10;
-// parameter POS_W = 4
-
 module half_adder (
     input a,
     input b,
