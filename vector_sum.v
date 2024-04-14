@@ -13,40 +13,49 @@ assign carry_out = a & b;
 
 endmodule
 
-module counter (
-    input [3:0]a,
+module counter
+#(
+    parameter POS_W = 4
+)
+(
+    input [POS_W-1:0]a,
     input b,
-    output [3:0]sum
+    output [POS_W-1:0]sum
 );
 
-wire c0, c1, c2, c3;
+wire c[POS_W:0];
+assign c[0] = b;
 
-half_adder adder_0(.a(a[0]), .b(b ), .sum(sum[0]), .carry_out(c0)); 
-half_adder adder_1(.a(a[1]), .b(c0), .sum(sum[1]), .carry_out(c1)); 
-half_adder adder_2(.a(a[2]), .b(c1), .sum(sum[2]), .carry_out(c2)); 
-half_adder adder_3(.a(a[3]), .b(c2), .sum(sum[3]), .carry_out(c3)); 
+genvar i;
+generate
+    for (i = 0; i < POS_W; i = i + 1) begin : gen_counters
+        half_adder adder_inst(.a(a[i]), .b(c[i]), .sum(sum[i]), .carry_out(c[i+1])); 
+    end
+endgenerate
 
 endmodule
 
-module vector_sum (
-    input [9:0]data,
-    output [3:0]sum
+module vector_sum 
+#(
+    parameter DATA_W=10,
+    parameter POS_W = $clog2(DATA_W) + ($clog2(DATA_W) != $clog2(DATA_W))
+)
+(
+    input [DATA_W-1:0]data,
+    output [POS_W-1:0]sum
 );
 
-wire [3:0] sum0, sum1, sum2, sum3, sum4, sum5, sum6, sum7, sum8, sum9;
+wire [POS_W-1:0] intermediate[DATA_W:0];
 
-assign sum0 = 4'b0000;
+assign intermediate[0] = 'b0;
+assign sum = intermediate[DATA_W - 1];
 
-counter counter0(.a(sum0), .b(data[0]), .sum(sum1));
-counter counter1(.a(sum1), .b(data[1]), .sum(sum2));
-counter counter2(.a(sum2), .b(data[2]), .sum(sum3));
-counter counter3(.a(sum3), .b(data[3]), .sum(sum4));
-counter counter4(.a(sum4), .b(data[4]), .sum(sum5));
-counter counter5(.a(sum5), .b(data[5]), .sum(sum6));
-counter counter6(.a(sum6), .b(data[6]), .sum(sum7));
-counter counter7(.a(sum7), .b(data[7]), .sum(sum8));
-counter counter8(.a(sum8), .b(data[8]), .sum(sum9));
-counter counter9(.a(sum9), .b(data[9]), .sum(sum));
+genvar i;
+generate
+    for (i = 0; i < DATA_W; i = i + 1) begin : gen_counters
+        counter #(POS_W) counter_inst (.a(intermediate[i]), .b(data[i]), .sum(intermediate[i + 1]));
+    end
+endgenerate
 
 endmodule
 
