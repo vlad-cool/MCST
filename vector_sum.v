@@ -1,4 +1,6 @@
-module vector_sum 
+`include "counter.v"
+
+module vector_sum
 #(
     parameter DATA_W=10,
     parameter POS_W = $clog2(DATA_W) + ($clog2(DATA_W) != $clog2(DATA_W))
