@@ -19,11 +19,11 @@ reg [DATA_W-1:0] data;
 reg [31:0] mem [LIFO_SIZE-1:0];
 assign dataout = data;
 assign full = addr == LIFO_SIZE;
-assign val = ptr == 0;
+assign val = addr == 0;
 
 always @ (posedge clk) begin
     if (reset) begin
-        ptr = 0;
+        addr = 0;
     end
     if (read & write) begin
         data <= datain;

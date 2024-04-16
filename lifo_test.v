@@ -48,6 +48,30 @@ initial begin
     $display("data_out: %b", data_out);
     $display("val:      %b", val);
     $display("full:     %b", full);
+    
+    data_in = 10'b0000000100;
+    #2
+    $display("data_out: %b", data_out);
+    $display("val:      %b", val);
+    $display("full:     %b", full);
+    
+    data_in = 10'b0000000100;
+    #2
+    $display("data_out: %b", data_out);
+    $display("val:      %b", val);
+    $display("full:     %b", full);
+    
+    data_in = 10'b0000000100;
+    #2
+    $display("data_out: %b", data_out);
+    $display("val:      %b", val);
+    $display("full:     %b", full);
+    
+    data_in = 10'b0000000100;
+    #2
+    $display("data_out: %b", data_out);
+    $display("val:      %b", val);
+    $display("full:     %b", full);
 
     write = 0;
     read = 1;
