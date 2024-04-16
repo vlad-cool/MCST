@@ -12,4 +12,4 @@ lifo: lifo.v lifo_test.v counter.v
 	iverilog lifo.v lifo_test.v -o lifo
 
 clean:
-	rm lifo vector_sum counter memory
+	rm lifo vector_sum counter
